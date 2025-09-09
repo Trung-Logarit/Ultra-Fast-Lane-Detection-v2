@@ -1,49 +1,63 @@
-dataset= 'CULane'
-data_root= '/content/Custom_Dataset'
+# Ultra-Fast-Lane-Detection v2 Configuration
+# Dataset: CULane + Backbone: ResNet-34 (fine-tune)
 
-epoch= 50 
-batch_size= 16
+# ---------- DATA CONFIG ----------
+dataset = 'CULane'
+data_root = '/content/dataset_14_8'
 
-optimizer= 'Adam' #'SGD'
-learning_rate= 5e-3
-weight_decay= 0.0001
-momentum= 0.9
+# ---------- TRAINING CONFIG ----------
+epoch = 100
+batch_size = 16
+seed = 42
 
-scheduler= 'multi'
-steps=  [25,38]
-gamma= 0.1
+# ---------- OPTIMIZER CONFIG ----------
+optimizer = 'Adam'
+learning_rate = 3e-4
+weight_decay = 1e-4
+momentum = 0.9  # Only for SGD
 
-warmup= 'linear'
-warmup_iters= 150
+# ---------- SCHEDULER CONFIG ----------
+scheduler = 'multi'
+min_lr = 1e-6
+steps = [60, 80, 90]  # For multi-step scheduler
+gamma = 0.1
 
-use_aux= False
-griding_num= 200
-backbone= '34'
+# ---------- WARMUP CONFIG ----------
+warmup = 'linear'
+warmup_iters = 150
 
-sim_loss_w= 0.0
-shp_loss_w= 0.0
-note= ''
+# ---------- MODEL CONFIG ----------
+backbone = '34'
+num_lanes = 4
+griding_num = 200
+use_aux = False
+fc_norm = True
 
-log_path= '/content/ufldv2_logs'
-finetune= '/content/Ultra-Fast-Lane-Detection-v2/weights/culane_res34.pth'
-resume= None
+# ---------- LOSS CONFIG ----------
+sim_loss_w = 0.0
+shp_loss_w = 0.0
+var_loss_power = 2.0
+mean_loss_w = 0.05
 
-test_model=''
-test_work_dir = ''
-tta= True
-
-num_lanes= 4
-var_loss_power= 2.0
-auto_backup= True
-
-num_row= 72
-num_col= 81
-
-train_width= 1600
-train_height= 320
-
-num_cell_row= 200
-num_cell_col= 100
-mean_loss_w= 0.05
-fc_norm= True
+# ---------- INPUT CONFIG ----------
+num_row = 72
+num_col = 81
+train_width = 1600
+train_height = 320
 crop_ratio = 0.6
+num_cell_row = 200
+num_cell_col = 100
+
+# ---------- LOGGING CONFIG ----------
+note = ''
+log_path = '/content/ufldv2_logs'
+auto_backup = True
+
+# ---------- TRANSFER LEARNING CONFIG ----------
+finetune = '/content/Ultra-Fast-Lane-Detection-v2/weights/culane_res34.pth'
+resume = None
+
+# ---------- TESTING CONFIG ----------
+test_model = ''
+test_work_dir = ''
+tta = True
