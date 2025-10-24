@@ -3,7 +3,7 @@
 
 # ---------- DATA CONFIG ----------
 dataset = 'CULane'
-data_root = '/content/dataset_14_8'
+data_root = '/content/Custom_Dataset'
 
 # ---------- TRAINING CONFIG ----------
 epoch = 100
@@ -11,20 +11,21 @@ batch_size = 16
 seed = 42
 
 # ---------- OPTIMIZER CONFIG ----------
-optimizer = 'Adam'
-learning_rate = 3e-4
+optimizer = 'SGD'
+learning_rate = 0.0125   # (batch_size=16; gốc 0.025 cho batch 32 → scale)
+momentum = 0.9
 weight_decay = 1e-4
-momentum = 0.9  # Only for SGD
 
 # ---------- SCHEDULER CONFIG ----------
 scheduler = 'multi'
 min_lr = 1e-6
-steps = [60, 80, 90]  # For multi-step scheduler
+steps = [60, 80, 90]
 gamma = 0.1
 
 # ---------- WARMUP CONFIG ----------
 warmup = 'linear'
-warmup_iters = 150
+warmup_iters = 1000
+
 
 # ---------- MODEL CONFIG ----------
 backbone = '34'
@@ -54,10 +55,16 @@ log_path = '/content/ufldv2_logs'
 auto_backup = True
 
 # ---------- TRANSFER LEARNING CONFIG ----------
-finetune = '/content/Ultra-Fast-Lane-Detection-v2/weights/culane_res34.pth'
+finetune = '/content/weights/culane_res34.pth'
 resume = None
 
 # ---------- TESTING CONFIG ----------
 test_model = ''
 test_work_dir = ''
 tta = True
+
+# ---------- EARLY STOP CONFIG ----------
+early_stop = True
+es_patience = 10
+es_min_delta = 1e-3
+es_warmup_epochs = 7
